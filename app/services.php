@@ -1,5 +1,6 @@
 <?php
 
+<<<<<<< HEAD
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Url as UrlResolver;
@@ -19,6 +20,12 @@ $di->set('url', function () use ($config) {
 
     return $url;
 }, true);
+=======
+use Phalcon\Mvc\View;
+
+$di = new Phalcon\DI\FactoryDefault();
+
+>>>>>>> f6f4725d1343c175c0293a3d04b78ab542148db4
 
 /**
  * Database connection
@@ -45,7 +52,11 @@ $di->set('view', function () use ($config) {
             $volt->setOptions(array(
                 'compiledPath' => $config->application->cacheDir,
                 'compiledSeparator' => '_',
+<<<<<<< HEAD
                 'compileAlways' => true//$config->application->enableCache
+=======
+                'compileAlways' => $config->application->enableCache
+>>>>>>> f6f4725d1343c175c0293a3d04b78ab542148db4
             ));
 
             return $volt;
@@ -55,6 +66,7 @@ $di->set('view', function () use ($config) {
 
     return $view;
 }, true);
+<<<<<<< HEAD
 
 //Start the session the first time a component requests the session service
 $di->set('session', function () {
@@ -62,3 +74,5 @@ $di->set('session', function () {
     $session->start();
     return $session;
 });
+=======
+>>>>>>> f6f4725d1343c175c0293a3d04b78ab542148db4
