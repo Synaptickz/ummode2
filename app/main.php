@@ -24,12 +24,6 @@ include __DIR__ . "/../app/services.php";
 /**
  * Handle the request
  */
-<<<<<<< HEAD
 $app = new \Phalcon\Mvc\Application($di);
 
 echo $app->handle()->getContent();
-=======
-$application = new \Phalcon\Mvc\Application($di);
-
-echo $application->handle()->getContent();
->>>>>>> f6f4725d1343c175c0293a3d04b78ab542148db4
