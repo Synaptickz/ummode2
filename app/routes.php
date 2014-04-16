@@ -17,7 +17,7 @@ $router->add('/:controller/:action/:params', array(
 
 $router->add('/:controller', array(
     'namespace' => 'App\Controllers',
-    'controller' => 1,
+    'controller' => 1
 ));
 
 $router->add('/', array(
@@ -40,16 +40,16 @@ $router->add('/admin/:controller', array(
 ));
 
 $router->add('/admin/', array(
-    'namespace' => 'App\Controllers\Admin',
-    'controller' => 'Index'
+    'namespace' => 'App\Controllers\Admin'
 ));
 
 $router->add('/admin', array(
-    'namespace' => 'App\Controllers\Admin',
-    'controller' => 'Index'
+    'namespace' => 'App\Controllers\Admin'
 ));
 
-
+/**
+ * ERROR 404 - Page not found
+ */
 $router->notFound(array(
     'namespace' => 'App\Controllers',
     'controller' => 'error',

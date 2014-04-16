@@ -13,7 +13,7 @@ class IndexController extends ControllerBase
             //$this->logger->log($i++.' '.$service->getName());
         }
         echo '</pre>';
-
+        $this->logger->log('[' . __METHOD__ . ']');
         echo '[' . __METHOD__ . ']';
     }
 }

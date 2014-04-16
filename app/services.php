@@ -1,6 +1,6 @@
 <?php
 /**
- * Provides framework late biding services
+ * Provides framework late binding services
  * @file services.php
  */
 
@@ -72,10 +72,12 @@ $di->set('view', function () use ($config) {
 
 /**
  * Logger Component
- * Set up the logger component
+ * The logger is a component for making systematic records of events, observations, or measurements.
  */
 $di->set('logger', function () use ($config) {
     $logger = new Phalcon\Logger\Multiple();
+
+    if (!filter_var($config->application->enableLogger, FILTER_VALIDATE_BOOLEAN)) return $logger;
 
     $loggerFileHandle = new Phalcon\Logger\Adapter\File($config->application->logsDir . gmdate("d-m-Y") . '.log');
     $logger->push($loggerFileHandle);
@@ -97,8 +99,15 @@ $di->set('session', function () {
     return $session;
 });
 
+
+/**
+ * Dispatcher Component
+ * Dispatching is the process of taking the request object, extracting the module name,
+ * controller name, action name, and optional parameters contained in it, and then
+ * instantiating a controller and calling an action of that controller.
+ */
 $di->set('dispatcher', function () use ($di) {
-    //SET 404 error page
+    // ERROR 404 - Page not found
     $evManager = $di->getShared('eventsManager');
     $evManager->attach(
         "dispatch:beforeException",
@@ -119,6 +128,5 @@ $di->set('dispatcher', function () use ($di) {
         );
     $dispatcher = new Dispatcher();
     $dispatcher->setEventsManager($evManager);
-    $dispatcher->setDefaultNamespace('App\Controllers');
     return $dispatcher;
 }, true);
