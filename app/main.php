@@ -10,16 +10,13 @@ $config = new Phalcon\Config\Adapter\Ini('../app/config/config.ini');
  * application will look for the classes that iteventually will need.
  */
 $loader = new \Phalcon\Loader();
-$loader->registerDirs(
-    array(
-        $config->application->controllersDir,
-        $config->application->pluginsDir,
-        $config->application->libraryDir,
-        $config->application->modelsDir,
-    )
-)->register();
 
-include __DIR__ . "/../app/services.php";
+$loader->registerNamespaces(array(
+    'App\Controllers' => $config->application->controllersDir,
+    'App\Models' => $config->application->modelsDir
+))->register();
+
+require __DIR__ . "/../app/services.php";
 
 /**
  * Handle the request

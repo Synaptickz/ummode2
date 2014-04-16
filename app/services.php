@@ -11,8 +11,16 @@ use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
+use Phalcon\Mvc\Dispatcher as Dispatcher;
 
 $di = new FactoryDefault();
+
+/**
+ * Router
+ */
+$di->set('router', function () {
+    return require __DIR__ . '/routes.php';
+}, true);
 
 /**
  * URL component
@@ -51,7 +59,7 @@ $di->set('view', function () use ($config) {
                 $volt->setOptions(array(
                     'compiledPath'      => $config->application->cacheDir,
                     'compiledSeparator' => '_',
-                    'compileAlways'     => filter_var($config->application->enableCache, FILTER_VALIDATE_BOOLEAN)
+                    'compileAlways'     => !filter_var($config->application->enableCache, FILTER_VALIDATE_BOOLEAN)
                 ));
 
                 return $volt;
@@ -88,3 +96,29 @@ $di->set('session', function () {
 
     return $session;
 });
+
+$di->set('dispatcher', function () use ($di) {
+    //SET 404 error page
+    $evManager = $di->getShared('eventsManager');
+    $evManager->attach(
+        "dispatch:beforeException",
+            function($event, $dispatcher, $exception)
+            {
+                switch ($exception->getCode()) {
+                    case Dispatcher::EXCEPTION_HANDLER_NOT_FOUND:
+                    case Dispatcher::EXCEPTION_ACTION_NOT_FOUND:
+                        $dispatcher->forward(
+                            array(
+                                'controller' => 'error',
+                                'action'     => 'show404',
+                            )
+                        );
+                        return false;
+                }
+            }
+        );
+    $dispatcher = new Dispatcher();
+    $dispatcher->setEventsManager($evManager);
+    $dispatcher->setDefaultNamespace('App\Controllers');
+    return $dispatcher;
+}, true);

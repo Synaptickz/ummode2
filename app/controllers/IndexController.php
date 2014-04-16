@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controllers;
+
 class IndexController extends ControllerBase
 {
     public function indexAction()
@@ -7,9 +9,11 @@ class IndexController extends ControllerBase
         $i=0;
         echo '<pre>';
         foreach ($this->di->getServices() as $service){
-            echo $i.'. '.$service->getName()."\n";
-            $this->logger->log($i++.' '.$service->getName());
+            echo ++$i.'. '.$service->getName()."\n";
+            //$this->logger->log($i++.' '.$service->getName());
         }
         echo '</pre>';
+
+        echo '[' . __METHOD__ . ']';
     }
 }
