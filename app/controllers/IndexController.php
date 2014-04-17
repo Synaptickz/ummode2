@@ -6,14 +6,10 @@ class IndexController extends ControllerBase
 {
     public function indexAction()
     {
-        $i=0;
-        echo '<pre>';
-        foreach ($this->di->getServices() as $service){
-            echo ++$i.'. '.$service->getName()."\n";
-            //$this->logger->log($i++.' '.$service->getName());
-        }
-        echo '</pre>';
-        $this->logger->log('[' . __METHOD__ . ']');
-        echo '[' . __METHOD__ . ']';
+        //$user = \App\Models\Users::findFirst();
+        echo '<pre>' . PHP_EOL;
+        //echo var_dump($user) . PHP_EOL;
+        echo '[' . __METHOD__ . ']' . PHP_EOL;
+        echo '</pre>' . PHP_EOL;
     }
 }

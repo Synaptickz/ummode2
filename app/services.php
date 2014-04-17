@@ -44,7 +44,7 @@ $di->set('db', function () use ($config) {
         "password" => $config->database->password,
         "dbname"   => $config->database->name
     ));
-});
+}, true);
 
 /**
  * View component
@@ -97,7 +97,7 @@ $di->set('session', function () {
     $session->start();
 
     return $session;
-});
+}, true);
 
 
 /**
