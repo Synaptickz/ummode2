@@ -46,6 +46,22 @@ $di->set('db', function () use ($config) {
     ));
 }, true);
 
+
+$di->set('translate', function() use($di) {
+    $dispatcher = $di->get('dispatcher');
+    $language = $dispatcher->getParam("lang");
+
+    if (file_exists("../app/languages/".$language.".php")) {
+        require "../app/languages/".$language.".php";
+    } else {
+        require "../app/languages/en-US.php";
+    }
+
+    return new \Phalcon\Translate\Adapter\NativeArray(array(
+        "content" => $messages
+    ));
+}, true);
+
 /**
  * View component
  * Set up the view component
@@ -61,6 +77,24 @@ $di->set('view', function () use ($config) {
                     'compiledSeparator' => '_',
                     'compileAlways'     => !filter_var($config->application->enableCache, FILTER_VALIDATE_BOOLEAN)
                 ));
+
+                $volt->getCompiler()->addFunction('_', function ($resolvedArgs, $exprArgs) use ($di) {
+                    if ( $argNo = count($exprArgs) > 1 ){
+                        $msg = $exprArgs[0]['expr']['value'];
+                        $argvs = 'array(';
+                        for ( $i = 0; $i<$argNo; $i++ ){
+                            $argvs .= '\'' . $i . '\'' . '=>' . '$' . $exprArgs[$i+1]['expr']['value'] . ',';
+                        };
+                        $argvs .= ')';
+                        $stringBuilder = '$this->translate->query(\'' . $msg . '\',' . $argvs . ')';
+                        return $stringBuilder;
+                    } else {
+                        return sprintf('$this->translate->query("%s")', $exprArgs[0]['expr']['value']);
+                    }
+
+
+
+                });
 
                 return $volt;
             },

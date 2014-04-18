@@ -13,7 +13,8 @@ $loader = new \Phalcon\Loader();
 
 $loader->registerNamespaces(array(
     'App\Controllers' => $config->application->controllersDir,
-    'App\Models' => $config->application->modelsDir
+    'App\Models' => $config->application->modelsDir,
+    'App\Languages' => $config->application->languagesDir
 ))->register();
 
 require __DIR__ . "/../app/services.php";

@@ -1,4 +1,5 @@
 <div class="container">
+<pre>{{ _(hi_user,username) }}</pre>
 <pre>{{ content() }}</pre>
 <form action="/signup" method="post">
 <div class="input-group">
@@ -8,7 +9,7 @@
 <br />
 <div class="input-group">
   <span class="input-group-addon">Email</span>
-  <input name="email" type="email" class="form-control" placeholder="batman@gotham.com">
+  <input name="email" type="text" class="form-control" placeholder="batman@gotham.com">
 </div>
 <br />
 <div class="input-group">
