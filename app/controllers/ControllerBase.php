@@ -6,7 +6,8 @@ use Phalcon\Mvc\Controller;
 
 class ControllerBase extends Controller
 {
-    public function initialize() {
+    public function initialize()
+    {
         $uri_lang = $this->dispatcher->getParam("lang");
 
         if (!isset($uri_lang)) {
@@ -16,8 +17,10 @@ class ControllerBase extends Controller
             } else {
                 $lang = substr($this->request->getBestLanguage(), 0, 2);
                 switch ($lang) {
-                    case "uk": break;
-                    case "en": break;
+                    case "uk":
+                        break;
+                    case "en":
+                        break;
                     default: $lang = "en";
                 }
                 $this->session->set("lang", $lang);
@@ -32,4 +35,3 @@ class ControllerBase extends Controller
         }
     }
 }
-

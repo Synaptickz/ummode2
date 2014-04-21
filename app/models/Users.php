@@ -36,7 +36,9 @@ class Users extends BaseModel
             'message' => $this->getDI()->getShared('translate')->query('hi_user')
         )));
 
-        if ($this->getMessages($field)) return;
+        if ($this->getMessages($field)) {
+            return;
+        };
         $this->validate(new \Phalcon\Mvc\Model\Validator\StringLength(array(
             'field' => $field,
             'min'   => 3,
@@ -45,14 +47,18 @@ class Users extends BaseModel
             //'messageMinimum' => 'We want more than just your initials'
         )));
 
-        if ($this->getMessages($field)) return;
+        if ($this->getMessages($field)) {
+            return;
+        };
         $this->validate(new \Phalcon\Mvc\Model\Validator\Regex(array(
             'field' => $field,
             'pattern' => '/^[A-Za-z][A-Za-z0-9]*(?:[A-Za-z0-9]+)*$/',
             'message' => 'Username can only contain alphanumeric characters'
         )));
 
-        if ($this->getMessages($field)) return;
+        if ($this->getMessages($field)) {
+            return;
+        }
         $this->validate(new \Phalcon\Mvc\Model\Validator\Uniqueness(array(
             'field' => $field,
             //'message' => $this->username . ' already exists!'
@@ -75,13 +81,17 @@ class Users extends BaseModel
             //'message' => $field . ' cannot be empty'
         )));
 
-        if ($this->getMessages($field)) return;
+        if ($this->getMessages($field)) {
+            return;
+        }
         $this->validate(new \Phalcon\Mvc\Model\Validator\Email(array(
             'field' => $field,
             //'message' => $field . ' must be an email address'
         )));
 
-        if ($this->getMessages($field)) return;
+        if ($this->getMessages($field)) {
+            return;
+        }
         $this->validate(new \Phalcon\Mvc\Model\Validator\Uniqueness(array(
             'field' => $field,
             //'message' => $field . ' must be an email address'
@@ -104,7 +114,9 @@ class Users extends BaseModel
             //'message' => $field . ' cannot be empty'
         )));
 
-        if ($this->getMessages($field)) return;
+        if ($this->getMessages($field)) {
+            return;
+        }
         $this->validate(new \Phalcon\Mvc\Model\Validator\StringLength(array(
             'field' => $field,
             'min'   => 6,
@@ -113,7 +125,6 @@ class Users extends BaseModel
             //'messageMinimum' => 'We want more than just your initials'
         )));
     }
-
 }
 
 /*

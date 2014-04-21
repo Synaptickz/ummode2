@@ -15,7 +15,7 @@ class SignupController extends ControllerBase
         $this->view->errors = array();
         $this->view->username = 'Batman';
         // If method is POST
-        if ( $this->request->isPost() ) {
+        if ($this->request->isPost()) {
             $user = new \App\Models\Users();
             $user->setUsername($this->request->getPost("username"));
             $user->setEmail($this->request->getPost("email"));
@@ -24,9 +24,9 @@ class SignupController extends ControllerBase
             $user->password_type = 1;
             $user->password_salt = 'test';
 
-            if ( $user->validationHasFailed() ){
+            if ($user->validationHasFailed()) {
                 $messages = $user->getMessages();
-                foreach ($messages as $message){
+                foreach ($messages as $message) {
                     echo $message->getMessage() . PHP_EOL;
                 }
             } else {

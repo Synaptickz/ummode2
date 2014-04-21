@@ -8,5 +8,4 @@ class BaseModel extends \Phalcon\Mvc\Model
     {
 
     }
-
 }

@@ -47,7 +47,7 @@ $di->set('db', function () use ($config) {
 }, true);
 
 
-$di->set('translate', function() use($di) {
+$di->set('translate', function () use ($di) {
     $dispatcher = $di->get('dispatcher');
     $language = $dispatcher->getParam("lang");
 
@@ -79,10 +79,10 @@ $di->set('view', function () use ($config) {
                 ));
 
                 $volt->getCompiler()->addFunction('_', function ($resolvedArgs, $exprArgs) use ($di) {
-                    if ( $argNo = count($exprArgs) > 1 ){
+                    if ($argNo = count($exprArgs) > 1) {
                         $msg = $exprArgs[0]['expr']['value'];
                         $argvs = 'array(';
-                        for ( $i = 0; $i<$argNo; $i++ ){
+                        for ($i = 0; $i<$argNo; $i++) {
                             $argvs .= '\'' . $i . '\'' . '=>' . '$' . $exprArgs[$i+1]['expr']['value'] . ',';
                         };
                         $argvs .= ')';
@@ -91,13 +91,10 @@ $di->set('view', function () use ($config) {
                     } else {
                         return sprintf('$this->translate->query("%s")', $exprArgs[0]['expr']['value']);
                     }
-
-
-
                 });
 
                 return $volt;
-            },
+        },
         '.phtml' => 'Phalcon\Mvc\View\Engine\Php'
     ));
 
@@ -111,7 +108,9 @@ $di->set('view', function () use ($config) {
 $di->set('logger', function () use ($config) {
     $logger = new Phalcon\Logger\Multiple();
 
-    if (!filter_var($config->application->enableLogger, FILTER_VALIDATE_BOOLEAN)) return $logger;
+    if (!filter_var($config->application->enableLogger, FILTER_VALIDATE_BOOLEAN)) {
+        return $logger;
+    }
 
     $loggerFileHandle = new Phalcon\Logger\Adapter\File($config->application->logsDir . gmdate("d-m-Y") . '.log');
     $logger->push($loggerFileHandle);
@@ -145,21 +144,20 @@ $di->set('dispatcher', function () use ($di) {
     $evManager = $di->getShared('eventsManager');
     $evManager->attach(
         "dispatch:beforeException",
-            function($event, $dispatcher, $exception)
-            {
-                switch ($exception->getCode()) {
-                    case Dispatcher::EXCEPTION_HANDLER_NOT_FOUND:
-                    case Dispatcher::EXCEPTION_ACTION_NOT_FOUND:
-                        $dispatcher->forward(
-                            array(
-                                'controller' => 'error',
-                                'action'     => 'show404',
-                            )
-                        );
-                        return false;
-                }
+        function ($event, $dispatcher, $exception) {
+            switch ($exception->getCode()) {
+                case Dispatcher::EXCEPTION_HANDLER_NOT_FOUND:
+                case Dispatcher::EXCEPTION_ACTION_NOT_FOUND:
+                    $dispatcher->forward(
+                        array(
+                            'controller' => 'error',
+                            'action'     => 'show404',
+                        )
+                    );
+                    return false;
             }
-        );
+        }
+    );
     $dispatcher = new Dispatcher();
     $dispatcher->setEventsManager($evManager);
     return $dispatcher;
