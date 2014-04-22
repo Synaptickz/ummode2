@@ -37,18 +37,39 @@ $di->set('url', function () use ($config) {
  * Database connection component
  * Database connection is created based on parameters defined in the configuration file
  */
-$di->set('db', function () use ($config) {
-    return new DbAdapter(array(
+$di->set('db', function () use ($config, $di) {
+    $dba = new DbAdapter(array(
         "host"     => $config->database->host,
         "username" => $config->database->username,
         "password" => $config->database->password,
         "dbname"   => $config->database->name
     ));
+
+
+    $eventsManager = $di->getShared('eventsManager');
+    $eventsManager->attach('db', function($event, $connection) {
+        if ($event->getType() == 'afterQuery') {
+            echo $connection->getSQLStatement() . '</br>' .PHP_EOL;
+        }
+    });
+
+    $dba->setEventsManager($eventsManager);
+    return $dba;
 }, true);
 
 
+// $di->set('eventsManager', function () use ($di) {
+//     $eventsManager = new \Phalcon\Events\Manager();
+
+//     $eventsManager->attach('db', function($event, $connection) use ($di) {
+//         echo 'awesome';
+//     });
+
+//     return $eventsManager;
+// }, true);
+
 $di->set('translate', function () use ($di) {
-    $dispatcher = $di->get('dispatcher');
+    $dispatcher = $di->getShared('dispatcher');
     $language = $dispatcher->getParam("lang");
 
     if (file_exists("../app/languages/".$language.".php")) {

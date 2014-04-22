@@ -32,8 +32,7 @@ class Users extends BaseModel
 
         $this->validate(new \Phalcon\Mvc\Model\Validator\PresenceOf(array(
             'field' => $field,
-            //'message' => $field . ' cannot be empty'
-            'message' => $this->getDI()->getShared('translate')->query('hi_user')
+            'message' => $this->translate->query('V_USERNAME_REQUIRED')
         )));
 
         if ($this->getMessages($field)) {
@@ -43,8 +42,8 @@ class Users extends BaseModel
             'field' => $field,
             'min'   => 3,
             'max'   => 30,
-            //'messageMaximum' => 'We don\'t like really long names',
-            //'messageMinimum' => 'We want more than just your initials'
+            'messageMinimum' => $this->translate->query('V_USERNAME_MIN_LENGTH'),
+            'messageMaximum' => $this->translate->query('V_USERNAME_MAX_LENGTH')
         )));
 
         if ($this->getMessages($field)) {
@@ -53,7 +52,7 @@ class Users extends BaseModel
         $this->validate(new \Phalcon\Mvc\Model\Validator\Regex(array(
             'field' => $field,
             'pattern' => '/^[A-Za-z][A-Za-z0-9]*(?:[A-Za-z0-9]+)*$/',
-            'message' => 'Username can only contain alphanumeric characters'
+            'message' => $this->translate->query('V_USERNAME_ALPHANUMERIC')
         )));
 
         if ($this->getMessages($field)) {
@@ -61,7 +60,7 @@ class Users extends BaseModel
         }
         $this->validate(new \Phalcon\Mvc\Model\Validator\Uniqueness(array(
             'field' => $field,
-            //'message' => $this->username . ' already exists!'
+            'message' => $this->translate->query('V_USERNAME_UNIQUENESS')
         )));
     }
 
@@ -78,7 +77,7 @@ class Users extends BaseModel
         $field = 'email';
         $this->validate(new \Phalcon\Mvc\Model\Validator\PresenceOf(array(
             'field' => $field,
-            //'message' => $field . ' cannot be empty'
+            'message' => $this->translate->query('V_EMAIL_REQUIRED')
         )));
 
         if ($this->getMessages($field)) {

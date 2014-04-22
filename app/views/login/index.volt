@@ -6,15 +6,10 @@
 {% endfor %}
 </ul>
 
-<form action="/signup" method="post">
+<form action="/login" method="post">
 <div class="input-group">
   <span class="input-group-addon">Username</span>
   <input name="username" type="text" class="form-control" value="{{ username }}" placeholder="Batman">
-</div>
-<br />
-<div class="input-group">
-  <span class="input-group-addon">Email</span>
-  <input name="email" type="text" class="form-control" value="{{ email }}" placeholder="batman@gotham.com">
 </div>
 <br />
 <div class="input-group">

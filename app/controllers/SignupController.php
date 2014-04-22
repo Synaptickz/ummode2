@@ -4,17 +4,15 @@ namespace App\Controllers;
 
 class SignupController extends ControllerBase
 {
-    /*
-    public function initialize() {
-        parent::initialize();
-    }
-    */
-
     public function indexAction()
     {
+        $this->view->username = ''; $this->view->e_username = false;
+        $this->view->email = '';
+        $this->view->password = '';
+
         $this->view->errors = array();
-        $this->view->username = 'Batman';
-        // If method is POST
+
+        // If request method is POST
         if ($this->request->isPost()) {
             $user = new \App\Models\Users();
             $user->setUsername($this->request->getPost("username"));
@@ -25,15 +23,21 @@ class SignupController extends ControllerBase
             $user->password_salt = 'test';
 
             if ($user->validationHasFailed()) {
-                $messages = $user->getMessages();
-                foreach ($messages as $message) {
-                    echo $message->getMessage() . PHP_EOL;
-                }
+                $this->view->errors = $user->getMessages();
             } else {
                 ($user->save())? printf('USER SAVED!') : printf('Internal Error');
             }
 
+            // Keep the values displayed
+            $this->view->username = $user->getUsername();
+            $this->view->email = $user->getEmail();
+
             return;
+        }
+
+        // If request method is GET
+        if ($this->request->isGet()) {
+
         }
     }
 }
