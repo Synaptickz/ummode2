@@ -1,8 +1,8 @@
 <?php
 
 $router = new Phalcon\Mvc\Router(false);
-$router->setDefaultAction('Index');
-$router->setDefaultController('Index');
+$router->setDefaultAction('index');
+$router->setDefaultController('index');
 $router->setDefaultNamespace('App\Controllers');
 
 /**
