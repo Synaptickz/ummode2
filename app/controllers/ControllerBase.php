@@ -4,10 +4,16 @@ namespace App\Controllers;
 
 use Phalcon\Mvc\Controller;
 
+/**
+ * @property Phalcon\Logger\Multiple $logger
+ * @property Phalcon\Translate\AdapterInterface $translate
+ */
 class ControllerBase extends Controller
 {
+    protected $errors = array();
     public function initialize()
     {
+        /*
         $uri_lang = $this->dispatcher->getParam("lang");
 
         if (!isset($uri_lang)) {
@@ -33,5 +39,11 @@ class ControllerBase extends Controller
                 $this->session->set("lang", $uri_lang);
             }
         }
+        */
+    }
+
+    public function afterExecuteRoute($dispatcher)
+    {
+        $this->view->errors = $this->errors;
     }
 }

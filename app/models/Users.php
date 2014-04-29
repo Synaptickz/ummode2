@@ -9,9 +9,8 @@ class Users extends BaseModel
     protected $id;
     protected $username;
     protected $email;
-    public $password_type;
+    public $password_type = 1;
     protected $password;
-    public $password_salt;
 
     public function getId()
     {
@@ -102,12 +101,18 @@ class Users extends BaseModel
         return $this->password;
     }
 
-    public function setPassword($password)
+    public function setPassword($password, $skipValidation = false)
     {
         $this->password = $password;
 
+        // Skip Validation?
+        if ($skipValidation) {
+            return;
+        }
+
         // Validation
         $field = 'password';
+
         $this->validate(new \Phalcon\Mvc\Model\Validator\PresenceOf(array(
             'field' => $field,
             //'message' => $field . ' cannot be empty'

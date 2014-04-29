@@ -46,27 +46,16 @@ $di->set('db', function () use ($config, $di) {
     ));
 
 
-    $eventsManager = $di->getShared('eventsManager');
-    $eventsManager->attach('db', function($event, $connection) {
-        if ($event->getType() == 'afterQuery') {
-            echo $connection->getSQLStatement() . '</br>' .PHP_EOL;
-        }
-    });
+    // $eventsManager = $di->getShared('eventsManager');
+    // $eventsManager->attach('db', function ($event, $connection) {
+    //     if ($event->getType() == 'afterQuery') {
+    //         echo $connection->getSQLStatement() . '</br>' .PHP_EOL;
+    //     }
+    // });
 
-    $dba->setEventsManager($eventsManager);
+    // $dba->setEventsManager($eventsManager);
     return $dba;
 }, true);
-
-
-// $di->set('eventsManager', function () use ($di) {
-//     $eventsManager = new \Phalcon\Events\Manager();
-
-//     $eventsManager->attach('db', function($event, $connection) use ($di) {
-//         echo 'awesome';
-//     });
-
-//     return $eventsManager;
-// }, true);
 
 $di->set('translate', function () use ($di) {
     $dispatcher = $di->getShared('dispatcher');
@@ -147,6 +136,7 @@ $di->set('logger', function () use ($config) {
  * Start the session the first time a component requests the session service
  */
 $di->set('session', function () {
+    session_name('mySessionName3');
     $session = new Phalcon\Session\Adapter\Files();
     $session->start();
 

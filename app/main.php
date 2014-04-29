@@ -14,6 +14,7 @@ $loader = new \Phalcon\Loader();
 $loader->registerNamespaces(array(
     'App\Controllers' => $config->application->controllersDir,
     'App\Models' => $config->application->modelsDir,
+    'App\Forms' => $config->application->formsDir,
     'App\Languages' => $config->application->languagesDir
 ))->register();
 
